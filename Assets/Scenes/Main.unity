@@ -952,6 +952,7 @@ GameObject:
   m_Component:
   - component: {fileID: 773510862}
   - component: {fileID: 773510863}
+  - component: {fileID: 773510864}
   m_Layer: 0
   m_Name: ClientManager
   m_TagString: Untagged
@@ -989,6 +990,18 @@ MonoBehaviour:
   ip: 127.0.0.1
   port: 26970
   myId: 0
+--- !u!114 &773510864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773510861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7bcc6d40cd06564ca6705045b3354ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1016098900
 GameObject:
   m_ObjectHideFlags: 0
@@ -1987,7 +2000,7 @@ Transform:
   m_GameObject: {fileID: 2086921490}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.89, y: 0, z: 0}
+  m_LocalPosition: {x: -12.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
