@@ -1,0 +1,4 @@
+repository "serverPACHAMAMA/serverPACHAMAMA@4673836078943@cloud"
+  path "/"
+    br "/main"
+    co "/main"
