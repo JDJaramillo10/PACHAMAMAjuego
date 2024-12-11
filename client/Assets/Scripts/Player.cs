@@ -2,6 +2,8 @@ using UnityEngine;
 using RiptideNetworking;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class Player : MonoBehaviour
     public bool IsLocal { get; private set; }
 
     //[SerializeField] private Transform camTransform;
+    [SerializeField] private TextMeshPro nameTag;
+
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRender;
@@ -25,7 +29,14 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         mySpriteRender = GetComponent<SpriteRenderer>();
+
     }
+
+    private void FixedUpdate()
+    {
+        AdjustPlayerFacingDirection();
+    }
+
 
     private void OnDestroy()
     {
@@ -41,7 +52,6 @@ public class Player : MonoBehaviour
         myAnimator.SetFloat("moveHorizontal", moveHorizontal);
         myAnimator.SetFloat("moveVertical", moveVertical);
 
-        Debug.Log($"posicion: + {newPosition}");
 
         //Debug.Log($"posicion x: + {rb.position.x - lastPosition.x}");
 
@@ -51,14 +61,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        AdjustPlayerFacingDirection();
-    }
 
     public static void Spawn(ushort id, string username, Vector3 position)
     {
         Player player;
+
         if (id == NetworkManager.Singleton.Client.Id)
         {
             player = Instantiate(GameLogic.Singleton.LocalPlayerPrefab, position, Quaternion.identity).GetComponent<Player>();
@@ -76,8 +83,23 @@ public class Player : MonoBehaviour
         player.Id = id;
         player.username = username;
 
+        player.setUserTag(username, id);
+
         list.Add(id, player);
 
+    }
+
+    private void setUserTag(string username, int id)
+    {
+        if (string.IsNullOrEmpty(username))
+        {
+            nameTag.SetText($"Guest {id}");
+        }
+        else
+        {
+            nameTag.SetText(username);
+        }
+        
     }
     private void AdjustPlayerFacingDirection()
     {
@@ -98,6 +120,7 @@ public class Player : MonoBehaviour
     private static void SpawnPlayer(Message message)
     {
         Spawn(message.GetUShort(), message.GetString(), message.GetVector3());
+        
     }
 
     [MessageHandler((ushort)ServerToClientId.playerMovement)]

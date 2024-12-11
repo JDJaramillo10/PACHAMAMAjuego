@@ -1,5 +1,6 @@
 using RiptideNetworking;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class Player : MonoBehaviour
 
     public PlayerMovement Movement => movement;
     [SerializeField] private PlayerMovement movement;
+
+
+    [SerializeField] private TextMeshPro nameTag;
 
     private void OnDestroy()
     {
@@ -31,9 +35,24 @@ public class Player : MonoBehaviour
         player.name = $"Player {id}({(string.IsNullOrEmpty(username) ? "Guest" : username)})";
         player.Id = id;
         player.Username = string.IsNullOrEmpty(username) ? $"Guest {id}" : username;
+        
+        player.setUserTag(username, id);
 
         player.SendSpawned();
         list.Add(id, player);
+    }
+
+    private void setUserTag(string username, int id)
+    {
+        if (string.IsNullOrEmpty(username))
+        {
+            nameTag.SetText($"Guest {id}");
+        }
+        else
+        {
+            nameTag.SetText(username);
+        }
+
     }
 
     #region Messages
@@ -47,6 +66,8 @@ public class Player : MonoBehaviour
         NetworkManager.Singleton.Server.Send(AddSpawnData(Message.Create(MessageSendMode.reliable, ServerToClientId.playerSpawned)), toClientId);
     }
 
+
+
     private Message AddSpawnData(Message message)
     {
         message.AddUShort(Id);
@@ -55,6 +76,7 @@ public class Player : MonoBehaviour
 
         return message;
     }
+
 
     [MessageHandler((ushort)ClientToServerId.name)]
     private static void Name(ushort fromClientId, Message message)

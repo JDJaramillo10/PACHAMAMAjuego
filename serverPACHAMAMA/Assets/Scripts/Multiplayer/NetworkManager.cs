@@ -39,7 +39,7 @@ public class NetworkManager : MonoBehaviour
 
     public Server Server { get; private set; }
 
-    [SerializeField] private ushort port = 26970;
+    [SerializeField] private ushort port = 7777;
     [SerializeField] private ushort maxClientCount;
 
     private void Awake()
@@ -51,7 +51,7 @@ public class NetworkManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
-        RiptideLogger.Initialize(Debug.Log, Debug.Log, Debug.LogWarning, Debug.LogError,false);
+        RiptideLogger.Initialize(Debug.Log, Debug.Log, Debug.LogWarning, Debug.LogError, false);
 
         Server = new Server();
         Server.Start(port, maxClientCount);
@@ -76,8 +76,6 @@ public class NetworkManager : MonoBehaviour
         if (Player.list.TryGetValue(e.Id, out Player player))
             Destroy(Player.list[e.Id].gameObject);
     }
-
-
 
 
 }

@@ -4,14 +4,33 @@ using System.Collections.Generic;
 
 public class Animal : MonoBehaviour
 {
+
+    [SerializeField] private List<AnimalPathFinding> animals;
+
+    private static Animal _singleton;
+
+    public static Animal Singleton
+    {
+        get => _singleton;
+        private set
+        {
+            if (_singleton == null)
+            {
+                _singleton = value;
+            }
+            else if (_singleton != value)
+            {
+                Debug.Log($"{nameof(Animal)} instance already exists, destroying duplicate!");
+                Destroy(value);
+            }
+        }
+    }
     private enum State
     {
         Roaming
     }
 
     private State state;
-
-    [SerializeField] private List<AnimalPathFinding> animals;
 
     private void Awake()
     {

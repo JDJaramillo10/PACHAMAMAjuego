@@ -39,11 +39,12 @@ public class NetworkManager : MonoBehaviour
 
     public Client Client { get; private set; }
 
-    
+
 
     //[SerializeField] private string ip;
+    //[SerializeField] private string serverIP = "192.168.100.16";
     [SerializeField] private string serverIP = "192.168.100.16";
-    [SerializeField] private ushort serverPort = 26970;
+    [SerializeField] private ushort serverPort = 7777;
 
 
     private void Awake()

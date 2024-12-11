@@ -39,8 +39,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: map
+    uniqueID: 615960629
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: objetos
+    uniqueID: 1385361181
     locked: 0
   m_RenderingLayers:
   - Default

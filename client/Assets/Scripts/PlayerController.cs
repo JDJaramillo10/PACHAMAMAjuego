@@ -3,22 +3,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //[SerializeField] private Transform camTransform;
 
     private bool[] inputs;
 
 
-    private UnityEngine.Vector2 movement;
-    //private Animator myAnimator;
-    //private SpriteRenderer mySpriteRender;
+    private Vector2 movement;
 
     private float moveHorizontal;
     private float moveVertical;
 
-    private void Awake() {
-        //myAnimator = GetComponent<Animator>();
-        //mySpriteRender = GetComponent<SpriteRenderer>();
-    }
 
 
     private void Update() {
@@ -26,17 +19,10 @@ public class PlayerController : MonoBehaviour
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
 
-        //myAnimator.SetFloat("moveHorizontal", moveHorizontal);
-        //myAnimator.SetFloat("moveVertical", moveVertical);
-
         SendAxis();
 
     }
 
-    /*private void FixedUpdate() {
-        AdjustPlayerFacingDirection();
-
-    }*/
 
     #region Messages
 
@@ -50,19 +36,6 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
-
-    /*private void AdjustPlayerFacingDirection(){
-
-        if(moveHorizontal < 0)
-        {
-            mySpriteRender.flipX = true;    
-        }else if(moveHorizontal > 0)
-        {
-            mySpriteRender.flipX = false;
-        }
-
-    }*/
 
 
 }

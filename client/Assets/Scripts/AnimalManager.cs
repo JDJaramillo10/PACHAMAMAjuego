@@ -6,6 +6,41 @@ public class AnimalManager : MonoBehaviour
 {
     [SerializeField] private List<AnimalPathFinding> animals;
 
+    private static AnimalManager _singleton;
+
+    public static AnimalManager Singleton
+    {
+        get => _singleton;
+        private set
+        {
+            if (_singleton == null)
+            {
+                _singleton = value;
+            }
+            else if (_singleton != value)
+            {
+                Debug.Log($"{nameof(AnimalManager)} instance already exists, destroying duplicate!");
+                Destroy(value);
+            }
+        }
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < animals.Count; i++)
+        {
+            animals[i].InitializeIndex(i);
+
+            if (i == 0)
+            {
+                animals[i].InitializeNombreCientífico("Venado");
+            }else if(i == 1)
+            {
+                animals[i].InitializeNombreCientífico("Zorro");
+            }
+        }
+    }
+
     private class AnimalMovementMessage
     {
         public int AnimalIndex;
@@ -36,7 +71,7 @@ public class AnimalManager : MonoBehaviour
         }
 
         AnimalPathFinding animal = animals[animalIndex];
-        Debug.Log($"Moviendo animal {animalIndex} a {newPosition}");
+        //Debug.Log($"Moviendo animal {animalIndex} a {newPosition}");
 
         animal.MoveTo(newPosition, facingDirection,messageReceived);
 
@@ -46,6 +81,18 @@ public class AnimalManager : MonoBehaviour
             animal.StopMoving();
         }
 
+    }
+
+    public string animalNameByIndex(int index)
+    {
+        if (index < 0 || index >= animals.Count) // Validar si el índice está dentro del rango
+        {
+            Debug.LogError("Índice fuera de rango");
+            return null; // O puedes retornar una cadena vacía: ""
+        }
+
+        string name = animals[index].name;
+        return name;
     }
 
 
