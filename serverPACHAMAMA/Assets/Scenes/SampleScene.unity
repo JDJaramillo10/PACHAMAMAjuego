@@ -4655,6 +4655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  myUrl: https://www.rts.com.ec/wp-content/uploads/2021/09/jabali.jpg
 --- !u!1001 &294193379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7543,6 +7544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  myUrl: https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/PigeonMonceau_%28cropped%29.jpg/250px-PigeonMonceau_%28cropped%29.jpg
 --- !u!1001 &864949437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7933,6 +7935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  myUrl: https://i.eldiario.com.ec/fotos-manabi-ecuador/2019/05/20190527040000_mezcla-de-lobo-y-perro.jpg
 --- !u!1001 &907687771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11711,6 +11714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  myUrl: https://static.wixstatic.com/media/780a0c_add219132f6e4383b625bb224f75ab38~mv2.png/v1/fill/w_568,h_378,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/780a0c_add219132f6e4383b625bb224f75ab38~mv2.png
 --- !u!1001 &1550692631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12717,6 +12721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  myUrl: https://inaturalist-open-data.s3.amazonaws.com/photos/60540811/original.jpeg
 --- !u!1001 &1765287637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15551,6 +15556,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zorro
       objectReference: {fileID: 0}
+    - target: {fileID: 2287325195450894505, guid: 8b2af48b934f67f4faa6d9c7b8e7786f, type: 3}
+      propertyPath: myUrl
+      value: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5UUpSI7aylY22oONceYePdTWe0ojvjXmx-A&s
+      objectReference: {fileID: 0}
     - target: {fileID: 3363741430327444116, guid: 8b2af48b934f67f4faa6d9c7b8e7786f, type: 3}
       propertyPath: m_SortingLayer
       value: 1
@@ -16781,6 +16790,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5327224612390081267, guid: e8436fcc9609d2b4ba5bbf97eb869d6f, type: 3}
+      propertyPath: myUrl
+      value: https://extincionanimal.org/wp-content/uploads/2020/05/venado-cola-blanca-1.jpg
+      objectReference: {fileID: 0}
     - target: {fileID: 5327224612390081267, guid: e8436fcc9609d2b4ba5bbf97eb869d6f, type: 3}
       propertyPath: animalManager
       value: 

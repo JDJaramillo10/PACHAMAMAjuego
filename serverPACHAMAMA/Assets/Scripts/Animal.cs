@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
+using RiptideNetworking;
 
 public class Animal : MonoBehaviour
 {
@@ -74,4 +76,6 @@ public class Animal : MonoBehaviour
     {
         return new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
     }
+
+
 }

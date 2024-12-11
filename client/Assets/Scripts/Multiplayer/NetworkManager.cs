@@ -8,12 +8,17 @@ public enum ServerToClientId : ushort
     playerSpawned = 1,
     playerMovement,
     animalMovement,
+    puntuacion,
+    puntuacionGrupal,
 }
 
 public enum ClientToServerId : ushort
 {
     name = 1,
+    conected,
     input,
+    sumar,
+    puntuacion,
 }
 
 public class NetworkManager : MonoBehaviour
@@ -78,6 +83,7 @@ public class NetworkManager : MonoBehaviour
     public void Connect()
     {
         Client.Connect($"{serverIP}:{serverPort}");
+        SendConnect();
     } 
 
     private void DidConnect(object sender, EventArgs e)
@@ -104,6 +110,13 @@ public class NetworkManager : MonoBehaviour
         {
             Destroy(player.gameObject);
         }
+    }
+
+    private void SendConnect()
+    {
+        Message message = Message.Create(MessageSendMode.unreliable, ClientToServerId.input);
+        message.AddBool(true);
+        NetworkManager.Singleton.Client.Send(message);
     }
 
 }

@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public ushort Id { get; private set; }
     public string Username { get; private set; }
 
+    //private int puntuacion;
+
     public PlayerMovement Movement => movement;
     [SerializeField] private PlayerMovement movement;
 
@@ -66,8 +68,6 @@ public class Player : MonoBehaviour
         NetworkManager.Singleton.Server.Send(AddSpawnData(Message.Create(MessageSendMode.reliable, ServerToClientId.playerSpawned)), toClientId);
     }
 
-
-
     private Message AddSpawnData(Message message)
     {
         message.AddUShort(Id);
@@ -76,6 +76,14 @@ public class Player : MonoBehaviour
 
         return message;
     }
+
+    /*private  void SendPuntuacion(ushort toClientId)
+    {
+        Message message = Message.Create(MessageSendMode.reliable, ServerToClientId.puntuacion);
+        message.AddUShort(toClientId);
+        message.AddInt(puntuacion);
+        NetworkManager.Singleton.Server.SendToAll(message);
+    }*/
 
 
     [MessageHandler((ushort)ClientToServerId.name)]
@@ -96,6 +104,29 @@ public class Player : MonoBehaviour
             
 
     }
+    /*
+    [MessageHandler((ushort)ClientToServerId.sumar)]
+    private  void SumarPuntos(ushort fromClientId, Message message)
+    {
+
+        if (list.TryGetValue(fromClientId, out Player player))
+        {
+            player.puntuacion += message.GetInt();
+        }
+
+        SendPuntuacion(fromClientId);
+    }*/
+
+    /*[MessageHandler((ushort)ClientToServerId.puntuacion)]
+    private static void obtenerInteracionPuntos(ushort fromClientId, Message message)
+    {
+
+        if (list.TryGetValue(fromClientId, out Player player))
+        {
+            player.puntuacion += message.GetInt();
+        }
+
+    }*/
 
     #endregion
 

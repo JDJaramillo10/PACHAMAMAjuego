@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer mySpriteRender;
 
     private string username;
+    private int puntuacion;
 
     private float moveHorizontal;
     private float moveVertical;
@@ -133,6 +134,17 @@ public class Player : MonoBehaviour
             player.moveVertical = message.GetFloat();
 
         }
+    }
+
+    [MessageHandler((ushort)ServerToClientId.puntuacion)]
+    private static void SumarPuntuacion(Message message)
+    {
+        if (list.TryGetValue(message.GetUShort(), out Player player))
+        {
+            player.puntuacion += message.GetInt();
+
+        }
+
     }
 
     #endregion

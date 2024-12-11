@@ -1,4 +1,5 @@
 using RiptideNetworking;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -19,7 +20,13 @@ public class PlayerController : MonoBehaviour
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
 
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            SendObtenerPuntuacion();
+        }
+
         SendAxis();
+
 
     }
 
@@ -32,6 +39,13 @@ public class PlayerController : MonoBehaviour
         Message message = Message.Create(MessageSendMode.unreliable, ClientToServerId.input);
         message.AddFloat(moveHorizontal);
         message.AddFloat(moveVertical);
+        NetworkManager.Singleton.Client.Send(message);
+    }
+
+    private void SendObtenerPuntuacion()
+    {
+        Message message = Message.Create(MessageSendMode.unreliable, ClientToServerId.puntuacion);
+        message.AddBool(true);
         NetworkManager.Singleton.Client.Send(message);
     }
 

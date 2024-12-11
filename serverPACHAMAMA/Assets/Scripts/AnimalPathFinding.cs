@@ -4,6 +4,7 @@ using UnityEngine;
 public class AnimalPathFinding : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] public string myUrl;
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -17,6 +18,11 @@ public class AnimalPathFinding : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         //myAnimator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        //SendURL();
     }
 
     private void FixedUpdate()
@@ -56,6 +62,8 @@ public class AnimalPathFinding : MonoBehaviour
         isRunning = false;
     }
 
+    #region Messages
+
     private void SendMovement()
     {
         Message message = Message.Create(MessageSendMode.unreliable, ServerToClientId.animalMovement);
@@ -65,4 +73,7 @@ public class AnimalPathFinding : MonoBehaviour
         message.AddBool(isRunning); //estado del movimiento
         NetworkManager.Singleton.Server.SendToAll(message);
     }
+
+
+    #endregion
 }

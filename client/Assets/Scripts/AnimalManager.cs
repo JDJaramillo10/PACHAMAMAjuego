@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimalManager : MonoBehaviour
 {
-    [SerializeField] private List<AnimalPathFinding> animals;
+    [SerializeField] public List<AnimalPathFinding> animals;
 
     private static AnimalManager _singleton;
 
@@ -24,21 +24,14 @@ public class AnimalManager : MonoBehaviour
             }
         }
     }
+    void Awake()
+    {
+        Singleton = this;
+    }
 
     private void Start()
     {
-        for (int i = 0; i < animals.Count; i++)
-        {
-            animals[i].InitializeIndex(i);
 
-            if (i == 0)
-            {
-                animals[i].InitializeNombreCientífico("Venado");
-            }else if(i == 1)
-            {
-                animals[i].InitializeNombreCientífico("Zorro");
-            }
-        }
     }
 
     private class AnimalMovementMessage
@@ -110,6 +103,8 @@ public class AnimalManager : MonoBehaviour
 
         movementQueue.Enqueue(movementMessage);
     }
+
+    
 
 
 }

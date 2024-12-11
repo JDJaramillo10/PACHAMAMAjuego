@@ -8,12 +8,17 @@ public enum ServerToClientId : ushort
     playerSpawned = 1,
     playerMovement,
     animalMovement,
+    puntuacion,
+    puntuacionGrupal,
 }
 
 public enum ClientToServerId : ushort
 {
     name = 1,
+    conected,
     input,
+    sumar,
+    puntuacion,
 }
 
 public class NetworkManager : MonoBehaviour

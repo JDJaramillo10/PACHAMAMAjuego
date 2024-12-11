@@ -1,7 +1,11 @@
+using RiptideNetworking;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using System.Collections.Generic;
+using System.Linq;
 
 public class AnimalPathFinding : MonoBehaviour
 {
@@ -12,7 +16,7 @@ public class AnimalPathFinding : MonoBehaviour
     private Animator myAnimator;
     private int myAnimIndex;
     private string animName;
-    private string nombreCientifico;
+    private bool adivinado;
 
     private bool messageReceived;
 
@@ -22,6 +26,12 @@ public class AnimalPathFinding : MonoBehaviour
     [SerializeField] public Button opcion2;
     [SerializeField] public Button opcion3;
     [SerializeField] public Button opcion4;
+    [SerializeField] public RawImage imagen;
+
+    private Texture imageTexture;
+
+    [SerializeField] private string myURL;
+    [SerializeField] private string nombreCientifico;
 
     public bool playerIsClose;
 
@@ -30,11 +40,17 @@ public class AnimalPathFinding : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         myAnimator = GetComponent<Animator>();
+        adivinado = false;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(DownloadImageFromURL(myURL));
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerIsClose)
+        if (Input.GetKeyDown(KeyCode.E) && playerIsClose && !adivinado)
         {
             if (questionPanel.activeInHierarchy)
             {
@@ -45,8 +61,26 @@ public class AnimalPathFinding : MonoBehaviour
                 questionPanel.SetActive(true);
                 ShowText();
             }
+        }
+    }
 
+    IEnumerator DownloadImageFromURL(string url)
+    {
 
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Texture downloadedTexture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+
+            //imagen.texture = downloadedTexture;
+            imageTexture = downloadedTexture;
+        }
+        else
+        {
+            Debug.Log(request.error);
         }
     }
 
@@ -55,19 +89,41 @@ public class AnimalPathFinding : MonoBehaviour
         myAnimIndex = index;
     }
 
-    public void InitializeNombreCientífico(string nombreC)
-    {
-        nombreCientifico = nombreC;
-    }
-
     public void ShowText()
     {
         questionText.text = $"Cúal es el nombre científico del {gameObject.name}";
 
-        opcion1.GetComponentInChildren<Text>().text = "Hola";
-        opcion2.GetComponentInChildren<Text>().text = "Venado";
-        opcion3.GetComponentInChildren<Text>().text = "Zorro";
-        opcion4.GetComponentInChildren<Text>().text = "Manu";
+
+        imagen.texture = imageTexture;
+
+        // Lista de opciones para las respuestas
+        List<string> opciones = new List<string>();
+
+        // Obtenemos el nombre del animal actual (este objeto)
+        string nombreCorrecto = nombreCientifico;
+
+        // Añadir la respuesta correcta a las opciones
+        opciones.Add(nombreCorrecto);
+
+        // Obtener una lista de nombres de animales diferentes al actual
+        List<string> nombresOtrosAnimales = AnimalManager.Singleton.animals
+            .Select(animal => animal.gameObject.name)
+            .Where(nombre => nombre != nombreCorrecto) // Excluir el animal actual
+            .OrderBy(_ => Random.value) // Ordenar aleatoriamente
+            .Take(3) // Tomar 3 nombres
+            .ToList();
+
+        // Añadir los nombres de los otros animales a las opciones
+        opciones.AddRange(nombresOtrosAnimales);
+
+        // Mezclar las opciones de manera aleatoria
+        opciones = opciones.OrderBy(_ => Random.value).ToList();
+
+        // Asignar las opciones a los botones
+        opcion1.GetComponentInChildren<Text>().text = opciones[0];
+        opcion2.GetComponentInChildren<Text>().text = opciones[1];
+        opcion3.GetComponentInChildren<Text>().text = opciones[2];
+        opcion4.GetComponentInChildren<Text>().text = opciones[3];
 
         opcion1.onClick.AddListener(() => HandleAnswerClick(opcion1));
         opcion2.onClick.AddListener(() => HandleAnswerClick(opcion2));
@@ -81,7 +137,7 @@ public class AnimalPathFinding : MonoBehaviour
         opcion1.GetComponentInChildren<Text>().text = "";
         opcion2.GetComponentInChildren<Text>().text = "";
         opcion3.GetComponentInChildren<Text>().text = "";
-        opcion4.GetComponentInChildren<Text>().text = ""; 
+        opcion4.GetComponentInChildren<Text>().text = "";
         questionPanel.SetActive(false);
 
         opcion1.onClick.RemoveAllListeners();
@@ -124,6 +180,8 @@ public class AnimalPathFinding : MonoBehaviour
 
         if (buttonText == nombreCientifico)
         {
+            adivinado = true;
+            //SumarPuntos();
             Debug.Log("¡Correcto! Este es el nombre científico.");
         }
         else
@@ -155,5 +213,17 @@ public class AnimalPathFinding : MonoBehaviour
         myAnimator.SetBool("isRunning", false);
     }
 
+    /*private void SumarPuntos()
+    {
+        Message message = Message.Create(MessageSendMode.reliable, ClientToServerId.sumar);
+        message.AddInt(1);
+        NetworkManager.Singleton.Client.Send(message);
+    }*/
+
+    #region Messages
+
+    
+
+    #endregion
 
 }
