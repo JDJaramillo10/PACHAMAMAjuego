@@ -1,7 +1,7 @@
 using UnityEngine;
 using RiptideNetworking;
 using RiptideNetworking.Utils;
-using Unity.VisualScripting;
+using System.Collections;
 
 public enum ServerToClientId : ushort
 {
@@ -9,7 +9,7 @@ public enum ServerToClientId : ushort
     playerMovement,
     animalMovement,
     puntuacion,
-    puntuacionGrupal,
+    Ganador,
 }
 
 public enum ClientToServerId : ushort
@@ -82,5 +82,10 @@ public class NetworkManager : MonoBehaviour
             Destroy(Player.list[e.Id].gameObject);
     }
 
+    public IEnumerator Ganador()
+    {
+        yield return new WaitForSeconds(5f);
+        Server.Stop();
+    }
 
 }

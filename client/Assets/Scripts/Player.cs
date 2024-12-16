@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
 using TMPro;
+using TMPro.Examples;
 
 public class Player : MonoBehaviour
 {
@@ -12,15 +13,18 @@ public class Player : MonoBehaviour
     public ushort Id { get; private set; }
     public bool IsLocal { get; private set; }
 
+    //public bool IsPlaying;
+
     //[SerializeField] private Transform camTransform;
     [SerializeField] private TextMeshPro nameTag;
 
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRender;
+    private static CameraController myCameraController;
 
     private string username;
-    private int puntuacion;
+    private int puntuacion = 0;
 
     private float moveHorizontal;
     private float moveVertical;
@@ -30,6 +34,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         mySpriteRender = GetComponent<SpriteRenderer>();
+        myCameraController = Camera.main.GetComponent<CameraController>();
 
     }
 
@@ -42,6 +47,7 @@ public class Player : MonoBehaviour
     private void OnDestroy()
     {
         list.Remove(Id);
+
     }
 
     private void Move( Vector3 newPosition)
@@ -69,10 +75,11 @@ public class Player : MonoBehaviour
 
         if (id == NetworkManager.Singleton.Client.Id)
         {
+            
             player = Instantiate(GameLogic.Singleton.LocalPlayerPrefab, position, Quaternion.identity).GetComponent<Player>();
             player.IsLocal = true;
 
-            Camera.main.GetComponent<CameraController>().SetTarget(player.transform);
+            myCameraController.SetTarget(player.transform);
         }
         else
         {
@@ -80,14 +87,29 @@ public class Player : MonoBehaviour
             player.IsLocal = false;
         }
 
-        player.name = $"Player {id} ({(string.IsNullOrEmpty(username) ? "Guest" : username)})";
+        player.name = $"Player {id} ({(string.IsNullOrEmpty(username) ? $"Guest" : username)})";
         player.Id = id;
         player.username = username;
+
 
         player.setUserTag(username, id);
 
         list.Add(id, player);
 
+        setPnlPunctuations();
+
+    }
+
+    private static void setPnlPunctuations()
+    {
+
+        foreach (var entry in Player.list)
+        {
+            ushort key = entry.Key;
+            Player player = entry.Value;
+
+            myCameraController.addPlayerToPanel($"({(string.IsNullOrEmpty(player.username) ? $"Guest {key}" : player.username)})", key - 1, player.puntuacion);
+        }
     }
 
     private void setUserTag(string username, int id)
@@ -101,6 +123,16 @@ public class Player : MonoBehaviour
             nameTag.SetText(username);
         }
         
+    }
+
+    private void esGanador()
+    {
+        myCameraController.mostrarGanaste();
+    }
+
+    private void esPerdedor()
+    {
+        myCameraController.mostrarPerdiste();
     }
     private void AdjustPlayerFacingDirection()
     {
@@ -141,9 +173,52 @@ public class Player : MonoBehaviour
     {
         if (list.TryGetValue(message.GetUShort(), out Player player))
         {
-            player.puntuacion += message.GetInt();
+            player.puntuacion = message.GetInt();
+
+            myCameraController.setPunctuationText(player.puntuacion);
+
+            setPnlPunctuations();
 
         }
+
+    }
+
+    [MessageHandler((ushort)ServerToClientId.Ganador)]
+    private static void Ganador(Message message)
+    {
+        ushort idGanador = message.GetUShort();
+
+        foreach (KeyValuePair<ushort, Player> entry in list)
+        {
+            ushort key = entry.Key;
+            Player player = entry.Value;
+
+            if (key == idGanador)
+            {
+                player.esGanador();
+            }
+            else
+            {
+                player.esPerdedor();
+            }
+        }
+
+        /*if (list.TryGetValue(idGanador, out Player player))
+        {
+            player.esGanador();
+
+        }
+        else{
+            foreach (KeyValuePair<ushort, Player> entry in Player.list)
+            {
+                ushort key = entry.Key;
+
+                if ()
+                {
+
+                }
+            }
+        }*/
 
     }
 

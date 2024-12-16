@@ -75,7 +75,6 @@ public class AnimalPathFinding : MonoBehaviour
         {
             Texture downloadedTexture = ((DownloadHandlerTexture)request.downloadHandler).texture;
 
-            //imagen.texture = downloadedTexture;
             imageTexture = downloadedTexture;
         }
         else
@@ -107,7 +106,7 @@ public class AnimalPathFinding : MonoBehaviour
 
         // Obtener una lista de nombres de animales diferentes al actual
         List<string> nombresOtrosAnimales = AnimalManager.Singleton.animals
-            .Select(animal => animal.gameObject.name)
+            .Select(animal => animal.nombreCientifico)
             .Where(nombre => nombre != nombreCorrecto) // Excluir el animal actual
             .OrderBy(_ => Random.value) // Ordenar aleatoriamente
             .Take(3) // Tomar 3 nombres
@@ -181,15 +180,37 @@ public class AnimalPathFinding : MonoBehaviour
         if (buttonText == nombreCientifico)
         {
             adivinado = true;
-            //SumarPuntos();
+            AddScore();
+
+            Camera.main.GetComponent<CameraController>().unlockImage(nombreCientifico);
+
+            StartCoroutine(ShowCorrectoPanelForSeconds(1f));
+
             Debug.Log("¡Correcto! Este es el nombre científico.");
         }
         else
         {
+            StartCoroutine(ShowIncorrectoPanelForSeconds(1f));
             Debug.Log("Respuesta incorrecta.");
         }
 
         zeroText();
+    }
+
+    private IEnumerator ShowCorrectoPanelForSeconds(float seconds)
+    {
+        Camera.main.GetComponent<CameraController>().setCorrectoActive();
+        yield return new WaitForSeconds(seconds); // Esperar
+        Camera.main.GetComponent<CameraController>().setCorrectoInactive();
+
+    }
+
+    private IEnumerator ShowIncorrectoPanelForSeconds(float seconds)
+    {
+        Camera.main.GetComponent<CameraController>().setIncorrectoActive();
+        yield return new WaitForSeconds(seconds); // Esperar
+        Camera.main.GetComponent<CameraController>().setIncorrectoInactive();
+
     }
 
     public void MoveTo(Vector2 targetPosition, float facingDir, bool received){
@@ -213,16 +234,15 @@ public class AnimalPathFinding : MonoBehaviour
         myAnimator.SetBool("isRunning", false);
     }
 
-    /*private void SumarPuntos()
+
+    #region Messages
+
+    private void AddScore()
     {
         Message message = Message.Create(MessageSendMode.reliable, ClientToServerId.sumar);
         message.AddInt(1);
         NetworkManager.Singleton.Client.Send(message);
-    }*/
-
-    #region Messages
-
-    
+    }
 
     #endregion
 

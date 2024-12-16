@@ -3458,7 +3458,7 @@ GameObject:
   - component: {fileID: 73946151}
   m_Layer: 0
   m_Name: bordeArriba
-  m_TagString: Untagged
+  m_TagString: Border
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6866,6 +6866,10 @@ MonoBehaviour:
   - {fileID: 889161415}
   - {fileID: 283334555}
   - {fileID: 861940177}
+  bordeDerecho: {fileID: 2066911545}
+  bordeIzquierdo: {fileID: 1192078676}
+  bordeAbajo: {fileID: 1920426200}
+  bordeArriba: {fileID: 73946152}
 --- !u!1001 &740645222
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8612,6 +8616,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 259121863}
     m_Modifications:
+    - target: {fileID: 286296118952230650, guid: aa65354561b05b0408262813a9f80c76, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 286296118952230650, guid: aa65354561b05b0408262813a9f80c76, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1385361181
+      objectReference: {fileID: 0}
     - target: {fileID: 2880439261760298975, guid: a3a0ade327a19a942baa7dbf8255809f, type: 3}
       propertyPath: m_Name
       value: global_shadow_77 (11)
@@ -8663,14 +8675,6 @@ PrefabInstance:
     - target: {fileID: 7350551280967850600, guid: a3a0ade327a19a942baa7dbf8255809f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 286296118952230650, guid: aa65354561b05b0408262813a9f80c76, type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 286296118952230650, guid: aa65354561b05b0408262813a9f80c76, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1385361181
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9980,7 +9984,7 @@ GameObject:
   - component: {fileID: 1192078675}
   m_Layer: 0
   m_Name: bordeIzquierda
-  m_TagString: Untagged
+  m_TagString: Border
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13178,7 +13182,7 @@ GameObject:
   - component: {fileID: 1920426199}
   m_Layer: 0
   m_Name: bordeAbajo
-  m_TagString: Untagged
+  m_TagString: Border
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14636,7 +14640,7 @@ GameObject:
   - component: {fileID: 2066911544}
   m_Layer: 0
   m_Name: bordeDerecha
-  m_TagString: Untagged
+  m_TagString: Border
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15800,6 +15804,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 259121863}
     m_Modifications:
+    - target: {fileID: 286296118952230650, guid: aa65354561b05b0408262813a9f80c76, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 286296118952230650, guid: aa65354561b05b0408262813a9f80c76, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1385361181
+      objectReference: {fileID: 0}
     - target: {fileID: 2880439261760298975, guid: a3a0ade327a19a942baa7dbf8255809f, type: 3}
       propertyPath: m_Name
       value: global_shadow_77 (10)
@@ -15851,14 +15863,6 @@ PrefabInstance:
     - target: {fileID: 7350551280967850600, guid: a3a0ade327a19a942baa7dbf8255809f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 286296118952230650, guid: aa65354561b05b0408262813a9f80c76, type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 286296118952230650, guid: aa65354561b05b0408262813a9f80c76, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1385361181
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

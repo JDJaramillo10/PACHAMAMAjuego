@@ -2,6 +2,7 @@ using UnityEngine;
 using RiptideNetworking;
 using RiptideNetworking.Utils;
 using System;
+using UnityEngine.UI;
 
 public enum ServerToClientId : ushort
 {   
@@ -9,7 +10,7 @@ public enum ServerToClientId : ushort
     playerMovement,
     animalMovement,
     puntuacion,
-    puntuacionGrupal,
+    Ganador
 }
 
 public enum ClientToServerId : ushort
@@ -48,7 +49,8 @@ public class NetworkManager : MonoBehaviour
 
     //[SerializeField] private string ip;
     //[SerializeField] private string serverIP = "192.168.100.16";
-    [SerializeField] private string serverIP = "192.168.100.16";
+    [SerializeField] public InputField hostPortField;
+    //private string serverIP = hostPortField.text;
     [SerializeField] private ushort serverPort = 7777;
 
 
@@ -82,7 +84,7 @@ public class NetworkManager : MonoBehaviour
 
     public void Connect()
     {
-        Client.Connect($"{serverIP}:{serverPort}");
+        Client.Connect($"{hostPortField.text}:{serverPort}");
         SendConnect();
     } 
 

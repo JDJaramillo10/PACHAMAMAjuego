@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     [Header("Connect")]
     [SerializeField] private GameObject connectUI;
     [SerializeField] private InputField usernameField;
+    //[SerializeField] private InputField hostPortField;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class UIManager : MonoBehaviour
     public void ConnectClicked()
     {
         usernameField.interactable = false;
+        NetworkManager.Singleton.hostPortField.interactable = false;
         connectUI.SetActive(false);
 
         NetworkManager.Singleton.Connect();
@@ -47,6 +49,7 @@ public class UIManager : MonoBehaviour
     public void BackToMain()
     {
         usernameField.interactable = true;
+        NetworkManager.Singleton.hostPortField.interactable = true;
         connectUI.SetActive(true);
         //SceneManager.LoadScene("ConnectScene");
     }

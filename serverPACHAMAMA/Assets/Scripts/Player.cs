@@ -13,7 +13,10 @@ public class Player : MonoBehaviour
     public ushort Id { get; private set; }
     public string Username { get; private set; }
 
-    //private int puntuacion;
+    public bool IsPlaying;
+
+    private int puntuacion = 0;
+
 
     public PlayerMovement Movement => movement;
     [SerializeField] private PlayerMovement movement;
@@ -23,6 +26,7 @@ public class Player : MonoBehaviour
 
     private void OnDestroy()
     {
+
         list.Remove(Id);
     }
 
@@ -77,13 +81,25 @@ public class Player : MonoBehaviour
         return message;
     }
 
-    /*private  void SendPuntuacion(ushort toClientId)
+    private void SendIntializePunctuations()
+    {
+        Message message = Message.Create(MessageSendMode.reliable, ServerToClientId.puntuacion);
+    }
+
+    private static void SendPuntuacion(ushort toClientId, int punctuation)
     {
         Message message = Message.Create(MessageSendMode.reliable, ServerToClientId.puntuacion);
         message.AddUShort(toClientId);
-        message.AddInt(puntuacion);
+        message.AddInt(punctuation);
         NetworkManager.Singleton.Server.SendToAll(message);
-    }*/
+    }
+
+    private static void SendGanador(ushort toClientId)
+    {
+        Message message = Message.Create(MessageSendMode.reliable, ServerToClientId.Ganador);
+        message.AddUShort(toClientId);
+        NetworkManager.Singleton.Server.SendToAll(message);
+    }
 
 
     [MessageHandler((ushort)ClientToServerId.name)]
@@ -102,31 +118,28 @@ public class Player : MonoBehaviour
             player.Movement.SetVerticalAxis(message.GetFloat());
         }
             
-
     }
-    /*
+    
     [MessageHandler((ushort)ClientToServerId.sumar)]
-    private  void SumarPuntos(ushort fromClientId, Message message)
+    private static void SumarPuntos(ushort fromClientId, Message message)
     {
 
         if (list.TryGetValue(fromClientId, out Player player))
         {
             player.puntuacion += message.GetInt();
+            SendPuntuacion(fromClientId, player.puntuacion);
+
+            if (player.puntuacion == 7)
+            {
+                SendGanador(fromClientId);
+                NetworkManager.Singleton.StartCoroutine(NetworkManager.Singleton.Ganador());
+            }
+
         }
 
-        SendPuntuacion(fromClientId);
-    }*/
+        //SendPuntuacion(fromClientId);
+    }
 
-    /*[MessageHandler((ushort)ClientToServerId.puntuacion)]
-    private static void obtenerInteracionPuntos(ushort fromClientId, Message message)
-    {
-
-        if (list.TryGetValue(fromClientId, out Player player))
-        {
-            player.puntuacion += message.GetInt();
-        }
-
-    }*/
 
     #endregion
 

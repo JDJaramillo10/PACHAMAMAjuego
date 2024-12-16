@@ -8,25 +8,12 @@ public class Animal : MonoBehaviour
 {
 
     [SerializeField] private List<AnimalPathFinding> animals;
+    [SerializeField] private Transform bordeDerecho;
+    [SerializeField] private Transform bordeIzquierdo;
+    [SerializeField] private Transform bordeAbajo;
+    [SerializeField] private Transform bordeArriba;
 
-    private static Animal _singleton;
 
-    public static Animal Singleton
-    {
-        get => _singleton;
-        private set
-        {
-            if (_singleton == null)
-            {
-                _singleton = value;
-            }
-            else if (_singleton != value)
-            {
-                Debug.Log($"{nameof(Animal)} instance already exists, destroying duplicate!");
-                Destroy(value);
-            }
-        }
-    }
     private enum State
     {
         Roaming
@@ -58,14 +45,15 @@ public class Animal : MonoBehaviour
         {
             foreach (var animal in animals)
             {
-                animal.StopMoving();
-                yield return new WaitForSeconds(3f);
-
+                
                 Vector2 roamPosition = GetRoamingPosition();
 
                 animal.MoveTo(roamPosition);
                 Debug.Log($"animal: {animal.name} moviendose a: {roamPosition}");
 
+                yield return new WaitForSeconds(2f);
+
+                animal.StopMoving();
                 yield return new WaitForSeconds(2f);
 
             }

@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class AnimalPathFinding : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] public float moveSpeed = 2f;
     [SerializeField] public string myUrl;
 
-    private Rigidbody2D rb;
+
+    public Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Vector2 moveDir;
+    private Vector2 movePos;
     private bool isRunning;
     //private Animator myAnimator;
     private int animalIndex;
@@ -29,6 +31,7 @@ public class AnimalPathFinding : MonoBehaviour
     {
 
         rb.MovePosition(rb.position + moveDir * (moveSpeed * Time.fixedDeltaTime));
+
         //myAnimator.SetBool("isRunning", isRunning);
         SendMovement();
     }
@@ -61,6 +64,7 @@ public class AnimalPathFinding : MonoBehaviour
         moveDir = Vector2.zero;
         isRunning = false;
     }
+
 
     #region Messages
 
